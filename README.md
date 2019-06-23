@@ -1,1 +1,1 @@
-# docker-traefik-proxy
+# Docker powered reverse proxy using traefik

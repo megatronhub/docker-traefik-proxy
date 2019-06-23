@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+# Reverse proxy & Front end
+  traefik:
+    container_name: $STACK-$TRAEFIK
+    image: traefik
+    ports:
+      - "80:80" # The HTTP port
+      - "443:443" # The HTTPS port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - traefik.toml:/traefik.toml # Traefik configuration file
+      - $APPDATA/$STACK/$TRAEFIK/traefik-acme:/acme # Tell Traefik to save SSL certs here
+    networks:
+      - net
+
+networks:
+  net:
+    internal: false
