@@ -30,8 +30,6 @@ services:
       - "traefik.enable=true" # Enable reverse-proxy for this service
       - "traefik.frontend.rule=Host:$ORGANIZR_DOMAIN" # Domain name for the app
       - "traefik.port=80"
-    ports:
-      - "8888:80"
     environment:
       - PGID=$PGID
       - PUID=$PUID
