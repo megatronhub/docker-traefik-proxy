@@ -4,6 +4,12 @@ services:
   traefik:
     container_name: $STACK-$TRAEFIK
     image: traefik
+    command: --api # Enables the web UI
+    labels:
+      - "traefik.enable=true" # Enable reverse-proxy for this service
+      - "traefik.frontend.rule=Host:$TRAEFIK.$DOMAIN" # Domain name for the app
+      - "traefik.frontend.auth.forward.address=http://organizr/api/?v1/auth&group=1"
+      - "traefik.port=8080"
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
@@ -11,6 +17,26 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - traefik.toml:/traefik.toml # Traefik configuration file
       - $APPDATA/$STACK/$TRAEFIK/traefik-acme:/acme # Tell Traefik to save SSL certs here
+    networks:
+      - int_net
+
+  organizr:
+    container_name: $STACK-$ORGANIZR
+    image: organizrtools/organizr-v2
+    restart: always
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true" # Enable reverse-proxy for this service
+      - "traefik.frontend.rule=Host:$ORGANIZR_DOMAIN" # Domain name for the app
+      - "traefik.port=80"
+    ports:
+      - "8888:80"
+    environment:
+      - PGID=$PGID
+      - PUID=$PUID
+    volumes:
+      - $APPDATA/$STACK/$ORGANIZR:/config
     networks:
       - int_net
 
