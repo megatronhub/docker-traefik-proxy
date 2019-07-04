@@ -3,10 +3,6 @@ logLevel = "ERROR"
 
 defaultEntryPoints = ["https","http"]
 
-[web]
-# Port for the status/dashboard page
-address = ":8080"
-
 [entryPoints]
   [entryPoints.http]
   address = ":80"
