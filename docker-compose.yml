@@ -1,6 +1,6 @@
 version: '3.4'
 services:
-# Reverse proxy & Front end
+# Reverse proxy wit acme TLS support
   traefik:
     container_name: $STACK-$TRAEFIK
     image: traefik
