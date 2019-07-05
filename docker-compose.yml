@@ -12,8 +12,8 @@ services:
       - ./traefik.toml:/traefik.toml # Traefik configuration file
       - $APPDATA/$STACK/$TRAEFIK/traefik-acme:/acme # Tell Traefik to save SSL certs here
     networks:
-      - int_net
+      - net
 
 networks:
-  int_net:
-    name: proxy_net
+  net:
+    internal: false
