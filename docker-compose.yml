@@ -9,7 +9,7 @@ services:
       - "443:443" # The HTTPS port
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      - traefik.toml:/traefik.toml # Traefik configuration file
+      - ./traefik.toml:/traefik.toml # Traefik configuration file
       - $APPDATA/$STACK/$TRAEFIK/traefik-acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - int_net
