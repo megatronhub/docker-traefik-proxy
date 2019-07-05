@@ -17,3 +17,4 @@ services:
 networks:
   int_net:
     internal: false
+    name: proxy_net
