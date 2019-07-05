@@ -17,4 +17,3 @@ services:
 networks:
   int_net:
     internal: false
-      name: $STACK_net
