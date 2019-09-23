@@ -2,7 +2,7 @@ version: '3.4'
 services:
 # Reverse proxy wit acme TLS support
   traefik:
-    container_name: $STACK-$TRAEFIK
+    container_name: $STACK-traefik
     image: traefik:v1.7.16
     ports:
       - "80:80" # The HTTP port
@@ -15,9 +15,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./traefik.toml:/traefik.toml # Traefik configuration file
-      - $APPDATA/$STACK/$TRAEFIK/traefik-acme:/acme # Tell Traefik to save SSL certs here
+      - traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - net
+
+volumes:
+  traefik_acme:
 
 networks:
   net:
