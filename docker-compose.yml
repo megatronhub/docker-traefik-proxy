@@ -7,6 +7,7 @@ services:
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
+    command: --api # Enables the web UI
     labels:
       - "traefik.enable=true" # Enable reverse-proxy for this service
       - "traefik.frontend.rule=Host:$TRAEFIK.$DOMAIN" # Domain name for the app
