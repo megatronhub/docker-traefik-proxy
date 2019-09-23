@@ -3,7 +3,7 @@ services:
 # Reverse proxy wit acme TLS support
   traefik:
     container_name: $STACK-$TRAEFIK
-    image: traefik
+    image: traefik:v1.7.16
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
