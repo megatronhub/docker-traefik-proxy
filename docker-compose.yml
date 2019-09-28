@@ -21,14 +21,11 @@ services:
       - traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - mediacenter
-      - ldap
 
 volumes:
   traefik_acme:
 
 networks:
   mediacenter:
-    name: docker-traefik-proxy_net
-  ldap:
-    name: ldap_net
-    # internal: false
+    external:
+      name: mediacenter_ext_net
