@@ -21,7 +21,7 @@ services:
       - traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - mediacenter
-      - ldap_net
+      - ldap
 
 volumes:
   traefik_acme:
