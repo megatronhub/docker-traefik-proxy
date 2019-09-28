@@ -28,4 +28,6 @@ volumes:
 networks:
   mediacenter:
     name: docker-traefik-proxy_net
+  ldap:
+    name: ldap_net
     # internal: false
