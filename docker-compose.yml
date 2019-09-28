@@ -20,7 +20,7 @@ services:
       - ./traefik.toml:/traefik.toml # Traefik configuration file
       - traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
-      - net
+      - mediacenter
 
 volumes:
   traefik_acme:
