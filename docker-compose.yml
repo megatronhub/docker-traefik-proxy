@@ -26,5 +26,6 @@ volumes:
   traefik_acme:
 
 networks:
-  net:
-    internal: false
+  mediacenter:
+    name: docker-traefik-proxy_net
+    # internal: false
