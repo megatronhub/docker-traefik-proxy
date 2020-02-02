@@ -18,12 +18,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./traefik.toml:/traefik.toml # Traefik configuration file
-      - traefik_acme:/acme # Tell Traefik to save SSL certs here
+      - $APPDATA/traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - mediacenter
-
-volumes:
-  traefik_acme:
 
 networks:
   mediacenter:
