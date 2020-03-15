@@ -2,23 +2,18 @@ version: '3.7'
 services:
 # Reverse proxy wit acme TLS support
   traefik:
-    container_name: $STACK-traefik
-    image: traefik:v1.7.16
+    container_name: $STACK-web
+    image: traefik:latest
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
-    expose:
-      - 8080
-    command: --api # Enables the web UI
-    labels:
-      - "traefik.enable=true" # Enable reverse-proxy for this service
-      - "traefik.frontend.rule=Host:$TRAEFIK.$DOMAIN" # Domain name for the app
-      - "traefik.frontend.auth.forward.address=http://organizr/api/?v1/auth&group=1"
-      - "traefik.port=8080"
+      - "8080:8080" # The WebUI port (enabled by --api,insecre=true)
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      - ./traefik.toml:/traefik.toml # Traefik configuration file
-      - $APPDATA/traefik_acme:/acme # Tell Traefik to save SSL certs here
+      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
+      - $APPDATA/$STACK/traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - net
 
