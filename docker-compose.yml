@@ -3,15 +3,21 @@ services:
 # Reverse proxy wit acme TLS support
   traefik:
     container_name: $STACK-web
-    image: traefik:latest
+    image: traefik:v2.1
     ports:
       - "80:80" # The HTTP port
-      - "443:443" # The HTTPS port
+      # - "443:443" # The HTTPS port
       - "8080:8080" # The Web UI (enabled by --api.insecure=true)
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       # - /etc/localtime:/etc/localtime:ro
       # - ./config/traefik.yml:/traefik.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       # - $APPDATA/$STACK/traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - net
