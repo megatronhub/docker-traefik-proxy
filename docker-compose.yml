@@ -9,6 +9,8 @@ services:
       - "443:443" # The HTTPS port
       - "8080:8080" # The WebUI port (enabled by --api,insecre=true)
     command: 
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:443"
       - "--api.insecure=true"
       - "--providers.docker"
     volumes:
