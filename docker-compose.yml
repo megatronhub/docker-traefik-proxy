@@ -11,7 +11,7 @@ services:
     volumes:
       # - /etc/localtime:/etc/localtime:ro
       # - ./config/traefik.yml:/traefik.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       # - $APPDATA/$STACK/traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - net
