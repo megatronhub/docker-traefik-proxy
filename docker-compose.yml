@@ -4,16 +4,26 @@ services:
   traefik:
     container_name: $STACK-web
     image: traefik:latest
+    security_opt:
+      - no-new-privileges:true
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
-      - "8080:8080" # The WebUI port (enabled by --api,insecre=true)
-    command: 
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.address=:443"
-      - "--api.insecure=true"
-      - "--providers.docker"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`$TRAEFIK.$DOMAIN`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/traefik.yml:/traefik.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
       - $APPDATA/$STACK/traefik_acme:/acme # Tell Traefik to save SSL certs here
     networks:
