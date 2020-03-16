@@ -5,27 +5,31 @@ services:
     container_name: $STACK-web
     image: traefik:v2.1
     ports:
-      - "80:80" # The HTTP port
+      # - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
       - "8080:8080" # The Web UI (enabled by --api.insecure=true)
     command:
-      - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
-      - --providers.docker
-      - --api.insecure # Don't do that in production
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.$STACK-traefik.rule=Host(`$TRAEFIK.$DOMAIN`)
-      - traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080
-      # - traefik.http.routers.$STACK-traefik.entrypoints=http
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.mytlschallenge.acme.email=postmaster@mydomain.com"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
     volumes:
-      # - $APPDATA/$STACK/acme.json:/acme.json # Tell Traefik to save SSL certs here
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - $APPDATA/$STACK/letsencrypt:/letsencrypt # Tell Traefik to save SSL certs here
+      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
       # - /etc/localtime:/etc/localtime:ro
       # - ./config/traefik.yml:/traefik.yml:ro
     networks:
       - net
+      - mediacenter
 
 networks:
   net:
     name: traefik-proxy_net
+  mediacenter:
+    external:
+      name: mediacenter_net
