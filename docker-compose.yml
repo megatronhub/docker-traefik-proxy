@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
-      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.entrypoints=http"
     volumes:
       # - $APPDATA/$STACK/acme.json:/acme.json # Tell Traefik to save SSL certs here
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
