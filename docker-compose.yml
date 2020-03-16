@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.http-catchall.entrypoints=http
       - traefik.http.routers.http-catchall.middlewares=sslredSirect
     volumes:
-      - $APPDATA/$STACK/acme:/acme
+      - $APPDATA/$STACK/acme.json:/acme.json
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
