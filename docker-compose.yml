@@ -24,26 +24,26 @@ services:
       - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
       - --certificatesResolvers.cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
       - --certificatesresolvers.cloudflare.acme.storage=/acme.json
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host($TRAEFIK.$DOMAIN)
-      - traefik.http.routers.traefik.entrypoints=https
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=default
-      - traefik.http.routers.traefik.tls.options=default
-      # - traefik.http.routers.traefik.middlewares=auth,securityheaders
-      # - traefik.http.routers.traefik.middlewares=securityheaders
-      - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
-      # - traefik.http.middlewares.auth.basicauth.users=${HTTP_USERNAME}:${HTTP_PASSWORD}
-      - traefik.http.middlewares.sslredirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.securityheaders.headers.forceSTSHeader=true
-      - traefik.http.middlewares.securityheaders.headers.stsPreload=true
-      - traefik.http.middlewares.securityheaders.headers.stsSeconds=315360000
-      - traefik.http.middlewares.securityheaders.headers.stsIncludeSubdomains=true
-      - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
-      - traefik.http.routers.http-catchall.entrypoints=http
-      - traefik.http.routers.http-catchall.middlewares=sslredSirect
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.traefik.rule=Host($TRAEFIK.$DOMAIN)
+    #   - traefik.http.routers.traefik.entrypoints=https
+    #   - traefik.http.routers.traefik.tls=true
+    #   - traefik.http.routers.traefik.tls.certresolver=default
+    #   - traefik.http.routers.traefik.tls.options=default
+    #   # - traefik.http.routers.traefik.middlewares=auth,securityheaders
+    #   # - traefik.http.routers.traefik.middlewares=securityheaders
+    #   - traefik.http.routers.traefik.service=api@internal
+    #   - traefik.http.services.traefik.loadbalancer.server.port=8080
+    #   # - traefik.http.middlewares.auth.basicauth.users=${HTTP_USERNAME}:${HTTP_PASSWORD}
+    #   - traefik.http.middlewares.sslredirect.redirectscheme.scheme=https
+    #   - traefik.http.middlewares.securityheaders.headers.forceSTSHeader=true
+    #   - traefik.http.middlewares.securityheaders.headers.stsPreload=true
+    #   - traefik.http.middlewares.securityheaders.headers.stsSeconds=315360000
+    #   - traefik.http.middlewares.securityheaders.headers.stsIncludeSubdomains=true
+    #   - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
+    #   - traefik.http.routers.http-catchall.entrypoints=http
+    #   - traefik.http.routers.http-catchall.middlewares=sslredSirect
     volumes:
       - $APPDATA/$STACK/acme.json:/acme.json
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
