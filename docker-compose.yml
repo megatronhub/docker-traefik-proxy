@@ -32,17 +32,18 @@ services:
       - traefik.http.routers.traefik.tls.certresolver=default
       - traefik.http.routers.traefik.tls.options=default
       # - traefik.http.routers.traefik.middlewares=auth,securityheaders
+      # - traefik.http.routers.traefik.middlewares=securityheaders
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.services.traefik.loadbalancer.server.port=8080
       # - traefik.http.middlewares.auth.basicauth.users=${HTTP_USERNAME}:${HTTP_PASSWORD}
-      # - traefik.http.middlewares.sslredirect.redirectscheme.scheme=https
-      # - traefik.http.middlewares.securityheaders.headers.forceSTSHeader=true
-      # - traefik.http.middlewares.securityheaders.headers.stsPreload=true
-      # - traefik.http.middlewares.securityheaders.headers.stsSeconds=315360000
-      # - traefik.http.middlewares.securityheaders.headers.stsIncludeSubdomains=true
-      # - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
-      # - traefik.http.routers.http-catchall.entrypoints=http
-      # - traefik.http.routers.http-catchall.middlewares=sslredSirect
+      - traefik.http.middlewares.sslredirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.securityheaders.headers.forceSTSHeader=true
+      - traefik.http.middlewares.securityheaders.headers.stsPreload=true
+      - traefik.http.middlewares.securityheaders.headers.stsSeconds=315360000
+      - traefik.http.middlewares.securityheaders.headers.stsIncludeSubdomains=true
+      - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
+      - traefik.http.routers.http-catchall.entrypoints=http
+      - traefik.http.routers.http-catchall.middlewares=sslredSirect
     volumes:
       - $APPDATA/$STACK/acme:/acme
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
