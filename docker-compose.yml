@@ -9,20 +9,15 @@ services:
       # - "443:443" # The HTTPS port
       - "8080:8080" # The Web UI (enabled by --api.insecure=true)
     command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+      - --entrypoints.web.address=:80
+      - --providers.docker
+      - --api.insecure # Don't do that in production
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
       - "traefik.http.routers.traefik.entrypoints=web"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      # - /etc/localtime:/etc/localtime:ro
-      # - ./config/traefik.yml:/traefik.yml:ro
-      # - $APPDATA/$STACK/traefik_acme:/acme # Tell Traefik to save SSL certs here
+      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
 
