@@ -9,10 +9,15 @@ services:
       # - "443:443" # The HTTPS port
       - "8080:8080" # The Web UI (enabled by --api.insecure=true)
     command:
+      - --entrypoints.websecure.address=:443
       - --entrypoints.web.address=:80
       - --providers.docker
       - --api.insecure # Don't do that in production
+      - --certificatesresolvers.le.acme.email=$ACME_EMAIL
+      - --certificatesresolvers.le.acme.storage=/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
     volumes:
+      - $APPDATA/$STACK/acme:/acme
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
