@@ -16,13 +16,11 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.mytlschallenge.acme.email=postmaster@mydomain.com"
+      - "--certificatesresolvers.mytlschallenge.acme.email=$ACME_EMAIL"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
     volumes:
       - $APPDATA/$STACK/letsencrypt:/letsencrypt # Tell Traefik to save SSL certs here
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
-      # - /etc/localtime:/etc/localtime:ro
-      # - ./config/traefik.yml:/traefik.yml:ro
     networks:
       - net
       - mediacenter
