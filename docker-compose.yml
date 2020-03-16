@@ -13,9 +13,10 @@ services:
       - --providers.docker
       - --api.insecure # Don't do that in production
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
-      - "traefik.http.routers.traefik.entrypoints=http"
+      - traefik.enable=true
+      - traefik.http.routers.$STACK-traefik.rule=Host($TRAEFIK.$DOMAIN)
+      - traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080
+      # - traefik.http.routers.traefik.entrypoints=http
     volumes:
       # - $APPDATA/$STACK/acme.json:/acme.json # Tell Traefik to save SSL certs here
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
