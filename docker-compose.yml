@@ -15,7 +15,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.$STACK-traefik.rule=Host(`$TRAEFIK.$DOMAIN`)
-      - traefik.http.services.$STACK-traefik.loadbalancer.server.port=8096
+      - traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080
       # - traefik.http.routers.$STACK-traefik.entrypoints=http
     volumes:
       # - $APPDATA/$STACK/acme.json:/acme.json # Tell Traefik to save SSL certs here
