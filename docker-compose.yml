@@ -13,7 +13,7 @@ services:
       - --entrypoints.web.address=:80
       - --providers.docker
       - --api.insecure # Don't do that in production
-      - --certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
       - --certificatesresolvers.le.acme.email=$ACME_EMAIL
       - --certificatesresolvers.le.acme.storage=/acme.json
       - --certificatesresolvers.le.acme.tlschallenge=true
