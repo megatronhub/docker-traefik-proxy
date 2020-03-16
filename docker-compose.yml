@@ -3,50 +3,24 @@ services:
 # Reverse proxy wit acme TLS support
   traefik:
     container_name: $STACK-web
-    image: traefik:latest
+    image: traefik:v2.1
     ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
-    environment:
-      - PUID=$PUID
-      - PGID=$PGID
-      - TZ=$TIMEZONE
-      - CF_API_EMAIL=$CLOUDFLARE_EMAIL
-      - CF_API_KEY=$CLOUDFLARE_API_KEY
+      - "8080:8080" # The Web UI (enabled by --api.insecure=true)
     command:
-      - --log.level=DEBUG
       - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
       - --providers.docker
-      - --api
-      - --certificatesresolvers.cloudflare.acme.email=$CLOUDFLARE_EMAIL
-      - --certificatesresolvers.cloudflare.acme.dnschallenge=true
-      - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
-      - --certificatesResolvers.cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
-      - --certificatesresolvers.cloudflare.acme.storage=/acme.json
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.traefik.rule=Host($TRAEFIK.$DOMAIN)
-    #   - traefik.http.routers.traefik.entrypoints=https
-    #   - traefik.http.routers.traefik.tls=true
-    #   - traefik.http.routers.traefik.tls.certresolver=default
-    #   - traefik.http.routers.traefik.tls.options=default
-    #   # - traefik.http.routers.traefik.middlewares=auth,securityheaders
-    #   # - traefik.http.routers.traefik.middlewares=securityheaders
-    #   - traefik.http.routers.traefik.service=api@internal
-    #   - traefik.http.services.traefik.loadbalancer.server.port=8080
-    #   # - traefik.http.middlewares.auth.basicauth.users=${HTTP_USERNAME}:${HTTP_PASSWORD}
-    #   - traefik.http.middlewares.sslredirect.redirectscheme.scheme=https
-    #   - traefik.http.middlewares.securityheaders.headers.forceSTSHeader=true
-    #   - traefik.http.middlewares.securityheaders.headers.stsPreload=true
-    #   - traefik.http.middlewares.securityheaders.headers.stsSeconds=315360000
-    #   - traefik.http.middlewares.securityheaders.headers.stsIncludeSubdomains=true
-    #   - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
-    #   - traefik.http.routers.http-catchall.entrypoints=http
-    #   - traefik.http.routers.http-catchall.middlewares=sslredSirect
+      - --api.insecure # Don't do that in production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
     volumes:
-      - $APPDATA/$STACK/acme.json:/acme.json
-      - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
+      # - $APPDATA/$STACK/acme.json:/acme.json # Tell Traefik to save SSL certs here
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      # - /etc/localtime:/etc/localtime:ro
+      # - ./config/traefik.yml:/traefik.yml:ro
     networks:
       - net
 
