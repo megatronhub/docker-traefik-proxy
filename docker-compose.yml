@@ -33,8 +33,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
-      - mediacenter
-      - ci
 
 networks:
   net:
