@@ -2,7 +2,7 @@ version: '2.4'
 services:
 # Reverse proxy wit acme TLS support
   traefik:
-    container_name: $STACK-web
+    container_name: $STACK_web
     image: traefik:v2.1
     ports:
       # - "80:80" # The HTTP port
