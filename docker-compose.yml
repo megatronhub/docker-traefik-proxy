@@ -7,7 +7,15 @@ services:
     ports:
       # - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
-      - "8080:8080" # The Web UI (enabled by --api.insecure=true)
+      # - "8080:8080" # The Web UI (enabled by --api.insecure=true)
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.$STACK-traefik.rule=Host(`$TRAEFIK.$DOMAIN`)"
+      - "traefik.http.routers.$STACK-traefik.entrypoints=websecure"
+      - "traefik.http.routers.$STACK-traefik.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080"
+      - "traefik.http.routers.$STACK-traefik.middlewares=auth-admin"
+      - "traefik.http.middlewares.auth-admin.forwardauth.address=http://$STACK-organizr/api/?v1/auth&group=1"
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
