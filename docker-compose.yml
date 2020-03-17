@@ -34,6 +34,7 @@ services:
     networks:
       - net
       - mediacenter
+      - ci
 
 networks:
   net:
@@ -41,3 +42,6 @@ networks:
   mediacenter:
     external:
       name: mediacenter_net
+  ci:
+    external:
+      name: ci_net
