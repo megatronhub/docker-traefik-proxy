@@ -39,9 +39,3 @@ services:
 networks:
   net:
     name: traefik-proxy_net
-  mediacenter:
-    external:
-      name: mediacenter_net
-  ci:
-    external:
-      name: ci_net
