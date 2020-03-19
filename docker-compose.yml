@@ -17,7 +17,7 @@ services:
       - "traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080"
       - "traefik.http.routers.$STACK-traefik.middlewares=auth-admin"
       - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
-      - "com.centurylinklabs.watchtower.enable="true""
+      - "com.centurylinklabs.watchtower.enable=true"
     command:
       - "--log.level=DEBUG"
       # - "--api.insecure=true"
