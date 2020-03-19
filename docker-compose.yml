@@ -17,6 +17,7 @@ services:
       - "traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080"
       - "traefik.http.routers.$STACK-traefik.middlewares=auth-admin"
       - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
+      - "docker-volume-backup.stop-during-backup=true"
     command:
       - "--log.level=DEBUG"
       # - "--api.insecure=true"
@@ -34,23 +35,13 @@ services:
     networks:
       - net
 
-  bivac:
+  backup:
     container_name: $STACK-backup
-    image: camptocamp/bivac:latest
-    # ports:
-    #   - "8182:8182"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.$STACK-bivac.rule=Host(`$BIVAC.$DOMAIN`)"
-      - "traefik.http.routers.$STACK-bivac.service=api@internal"
-      - "traefik.http.routers.$STACK-bivac.entrypoints=websecure"
-      - "traefik.http.routers.$STACK-bivac.tls.certresolver=mytlschallenge"
-      - "traefik.http.services.$STACK-bivac.loadbalancer.server.port=8182"
-      - "traefik.http.routers.$STACK-bivac.middlewares=auth-admin"
-      - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
+    image: futurice/docker-volume-backup:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - $APPDATA/backup:/data/backup
+      - traefik:/letsencrypt:ro
+      - $BACKUP/$STACK/letsencrypt:/archive
     networks:
       - net
 
