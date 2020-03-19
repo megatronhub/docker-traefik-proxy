@@ -35,23 +35,6 @@ services:
     networks:
       - net
 
-  backup:
-    container_name: $STACK-backup
-    image: futurice/docker-volume-backup:latest
-    environment:
-      - BACKUP_SOURCES=BACKUP_SOURCES
-      - BACKUP_CRON_EXPRESSION=$BACKUP_CRON_EXPRESSION
-      - BACKUP_FILENAME=$BACKUP_FILENAME
-      - BACKUP_ARCHIVE=$BACKUP_ARCHIVE
-      - BACKUP_WAIT_SECONDS=$BACKUP_WAIT_SECONDS
-      - BACKUP_HOSTNAME=$BACKUP_HOSTNAME
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - traefik:$BACKUP_SOURCES/letsencrypt
-      - $BACKUP/$STACK:$BACKUP_ARCHIVE
-    networks:
-      - net
-
 volumes:
   traefik:
       name: $STACK-letsencrypt # Real ending name
