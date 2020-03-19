@@ -17,7 +17,7 @@ services:
       - "traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080"
       - "traefik.http.routers.$STACK-traefik.middlewares=auth-admin"
       - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
-      - "docker-volume-backup.stop-during-backup=true"
+      - "com.centurylinklabs.watchtower.enable="true""
     command:
       - "--log.level=DEBUG"
       # - "--api.insecure=true"
@@ -34,6 +34,19 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
+
+  # Watchtower auto update
+    watchtower:
+      image: "v2tec/watchtower"
+      container_name: $STACK-watchtower
+      restart: always
+      command:
+        - --label-enable
+        - --cleanup
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - net
 
 volumes:
   traefik:
