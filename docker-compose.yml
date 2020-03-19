@@ -29,10 +29,15 @@ services:
       - "--certificatesresolvers.mytlschallenge.acme.email=$ACME_EMAIL"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
     volumes:
-      - $APPDATA/$STACK/letsencrypt:/letsencrypt # Tell Traefik to save SSL certs here
+      - traefik:/letsencrypt # Tell Traefik to save SSL certs here
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
       - net
+
+volumes:
+  traefik:
+      name: $STACK-letsencrypt # Real ending name
+      external: false
 
 networks:
   net:
