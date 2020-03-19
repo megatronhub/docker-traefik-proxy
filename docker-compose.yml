@@ -34,6 +34,26 @@ services:
     networks:
       - net
 
+  bivac:
+    container_name: $STACK-backup
+    image: camptocamp/bivac:stable
+    # ports:
+    #   - "8182:8182"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.$STACK-bivac.rule=Host(`$BIVAC.$DOMAIN`)"
+      - "traefik.http.routers.$STACK-bivac.service=api@internal"
+      - "traefik.http.routers.$STACK-bivac.entrypoints=websecure"
+      - "traefik.http.routers.$STACK-bivac.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.$STACK-bivac.loadbalancer.server.port=8182"
+      - "traefik.http.routers.$STACK-bivac.middlewares=auth-admin"
+      - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - $APPDATA/backup:/data/backup
+    networks:
+      - net
+
 volumes:
   traefik:
       name: $STACK-letsencrypt # Real ending name
