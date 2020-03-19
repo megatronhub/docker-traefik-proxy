@@ -37,17 +37,17 @@ services:
 
   backup:
     container_name: $STACK-backup
-    image: blacklabelops/volumerize
+    image: futurice/docker-volume-backup:latest
     environment:
-      - VOLUMERIZE_CONTAINERS=traefik
-      - VOLUMERIZE_SOURCE=$VOLUMERIZE_SOURCE
-      - VOLUMERIZE_TARGET=$VOLUMERIZE_TARGET
-      - VOLUMERIZE_JOBBER_TIME=$VOLUMERIZE_JOBBER_TIME
+      - BACKUP_SOURCES=BACKUP_SOURCES
+      - BACKUP_CRON_EXPRESSION=$BACKUP_CRON_EXPRESSION
+      - BACKUP_FILENAME=$BACKUP_FILENAME
+      - BACKUP_ARCHIVE=$BACKUP_ARCHIVE
+      - BACKUP_WAIT_SECONDS=$BACKUP_WAIT_SECONDS
+      - BACKUP_HOSTNAME=$BACKUP_HOSTNAME
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - traefik:$VOLUMERIZE_SOURCE:ro
-      - backup_cache:/volumerize-cache
-      - $BACKUP/$STACK/letsencrypt:/backup
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik:$BACKUP_SOURCES/letsencrypt
     networks:
       - net
 
