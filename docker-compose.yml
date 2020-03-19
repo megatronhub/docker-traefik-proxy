@@ -36,7 +36,7 @@ services:
 
   bivac:
     container_name: $STACK-backup
-    image: camptocamp/bivac:stable
+    image: camptocamp/bivac:latest
     # ports:
     #   - "8182:8182"
     labels:
