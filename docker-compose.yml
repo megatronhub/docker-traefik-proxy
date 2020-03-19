@@ -56,9 +56,6 @@ volumes:
   traefik:
       name: $STACK-letsencrypt # Real ending name
       external: false
-  backup_cache:
-      name: $STACK-backup_cache # Real ending name
-      external: false
 
 networks:
   net:
