@@ -38,6 +38,8 @@ services:
   backup:
     container_name: $STACK-backup
     image: futurice/docker-volume-backup:latest
+    environment: 
+      - BACKUP_CRON_EXPRESSION=$BACKUP_CRON_EXPRESSION
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik:/letsencrypt:ro
