@@ -38,12 +38,13 @@ services:
   backup:
     container_name: $STACK-backup
     image: blacklabelops/volumerize
-    environment: 
+    environment:
+      - VOLUMERIZE_CONTAINERS=traefik
       - VOLUMERIZE_SOURCE=$VOLUMERIZE_SOURCE
       - VOLUMERIZE_TARGET=$VOLUMERIZE_TARGET
       - VOLUMERIZE_JOBBER_TIME=$VOLUMERIZE_JOBBER_TIME
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - traefik:$VOLUMERIZE_SOURCE:ro
       - backup_cache:/volumerize-cache
       - $BACKUP/$STACK/letsencrypt:/backup
