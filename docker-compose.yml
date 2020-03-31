@@ -68,8 +68,9 @@ services:
 
 # Cloudflare CNAME create on container start
 # You will need to add FLARE_DOMAIN OR VIRTUAL_HOST env to each container
-  dns_flare:
+  dnsflare:
     build: ./dns-flare
+    container_name: $STACK-flaredns
     environment:
       - "EMAIL=$EMAIL"
       - "ZONE_ID=$ZONE_ID"
