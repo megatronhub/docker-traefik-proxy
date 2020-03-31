@@ -48,9 +48,27 @@ services:
     networks:
       - net
 
+# DDclient cloudflare dns auto updater
+  ddclient:
+    image: "linuxserver/ddclient"
+    container_name: $STACK-ddclient
+    restart: always
+    environment:
+      - TZ=$TIMEZONE
+      - PGID=$PGID
+      - PUID=$PUID
+    volumes:
+      - ddclient_config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - net
+
 volumes:
-  traefik:
+  traefik_letsencrypt:
       name: $STACK-letsencrypt # Real ending name
+      external: false
+  ddclient_config:
+      name: $STACK-ddclient_config # Real ending name
       external: false
 
 networks:
