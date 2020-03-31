@@ -40,6 +40,8 @@ services:
     image: "v2tec/watchtower"
     container_name: $STACK-watchtower
     restart: always
+    labels: 
+      - "com.centurylinklabs.watchtower.enable=true"
     command:
       - --label-enable
       - --cleanup
@@ -53,6 +55,8 @@ services:
     image: "linuxserver/ddclient"
     container_name: $STACK-ddclient
     restart: always
+    labels: 
+      - "com.centurylinklabs.watchtower.enable=true"
     environment:
       - TZ=$TIMEZONE
       - PGID=$PGID
