@@ -59,7 +59,6 @@ services:
       - PUID=$PUID
     volumes:
       - ddclient_config:/config
-      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - net
 
