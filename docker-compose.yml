@@ -29,6 +29,8 @@ services:
       #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.mytlschallenge.acme.email=$ACME_EMAIL"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+    environment: 
+      - VIRTUAL_HOST=$TRAEFIK.$DOMAIN
     volumes:
       - traefik_letsencrypt:/letsencrypt # Tell Traefik to save SSL certs here
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
