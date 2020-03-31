@@ -78,8 +78,8 @@ services:
       - "TARGET_DOMAIN=$TARGET_DOMAIN"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  networks:
-    - net
+    networks:
+      - net
 
 volumes:
   traefik_letsencrypt:
