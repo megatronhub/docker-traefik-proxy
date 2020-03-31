@@ -66,6 +66,20 @@ services:
     networks:
       - net
 
+# Cloudflare CNAME create on container start
+# You will need to add FLARE_DOMAIN OR VIRTUAL_HOST env to each container
+  dns_flare:
+    build: ./dns-flare
+    environment:
+      - "EMAIL=$EMAIL"
+      - "ZONE_ID=$ZONE_ID"
+      - "TOKEN=$TOKEN"
+      - "TARGET_DOMAIN=$TARGET_DOMAIN"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  networks:
+    - net
+
 volumes:
   traefik_letsencrypt:
       name: $STACK-letsencrypt # Real ending name
