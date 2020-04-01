@@ -15,6 +15,8 @@ services:
       - "traefik.http.routers.$STACK-traefik.entrypoints=websecure"
       - "traefik.http.routers.$STACK-traefik.tls.certresolver=mytlschallenge"
       - "traefik.http.services.$STACK-traefik.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.routers.$STACK-traefik.middlewares=auth-admin"
       - "traefik.http.middlewares.auth-admin.forwardauth.address=http://mediacenter-organizr/api/?v1/auth&group=1"
       - "com.centurylinklabs.watchtower.enable=true"
