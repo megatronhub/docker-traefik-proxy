@@ -51,5 +51,5 @@
 - This should be everything you need to get started all thats left is to run the following command, make sure you are in the repository directory before running command
     ```sh
     cd ~/docker-traefik-proxy
-    docker-compose up -d
+    docker-compose up -d --build
     ```
