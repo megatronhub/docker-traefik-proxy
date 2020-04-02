@@ -5,7 +5,7 @@ services:
     container_name: $STACK-web
     image: traefik:v2.1
     ports:
-      # - "80:80" # The HTTP port
+      - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
       # - "8080:8080" # The Web UI (enabled by --api.insecure=true)
     labels:
@@ -25,6 +25,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.address-:80"
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.mytlschallenge.acme.email=$ACME_EMAIL"
