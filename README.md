@@ -6,9 +6,9 @@
 
 ## Prerequisites
 - A computer with Docker and docker-compose installed my current versions at the time of writing this are
--- Ubuntu 18.04.4 LTS
--- Docker version 19.03.8, build afacb8b7f0
--- Docker-compose version 1.25.4-rc2, build 36a5d4d4
+    - Ubuntu 18.04.4 LTS
+    - Docker version 19.03.8, build afacb8b7f0
+    - Docker-compose version 1.25.4-rc2, build 36a5d4d4
 
 - For letsencrypt to work you will need to own your own domain ie: example.com, I am with godaddy and ive forwarded my domain to cloudflare to take advantage of [ddclient](https://github.com/linuxserver/docker-ddclient) and [flare-dns](https://github.com/code5-lab/dns-flare)
     - Please note from this point forward it is assumed your domain is controlled using cloudflare, its fast, free & feature rich so why not
