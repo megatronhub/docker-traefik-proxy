@@ -25,7 +25,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.web.address-:80"
+      - "--entrypoints.web.address=:80"
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.mytlschallenge.acme.email=$ACME_EMAIL"
